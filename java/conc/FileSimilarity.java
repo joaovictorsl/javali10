@@ -31,6 +31,10 @@ public class FileSimilarity {
         }
     }
 
+    private static synchronized void putSync(Map<String, List<Long>> fileFingerprints, String path , List<Long> fingerprint){
+        fileFingerprints.put(path, fingerprint); 
+    } 
+
     private static List<Long> fileSum(String filePath) throws IOException {
         File file = new File(filePath);
         List<Long> chunks = new ArrayList<>();
