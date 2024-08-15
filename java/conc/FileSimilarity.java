@@ -25,12 +25,13 @@ public class FileSimilarity {
             });
 
             threads.add(t);
+            t.start();
         }
 
         for (Thread t : threads){
             t.join();
         }
-
+        
         // Compare each pair of files
         for (int i = 0; i < args.length; i++) {
             for (int j = i + 1; j < args.length; j++) {
