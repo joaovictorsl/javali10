@@ -31,16 +31,23 @@ public class FileSimilarity {
         for (Thread t : threads){
             t.join();
         }
-        
+
         // Compare each pair of files
         for (int i = 0; i < args.length; i++) {
             for (int j = i + 1; j < args.length; j++) {
-                String file1 = args[i];
-                String file2 = args[j];
-                List<Long> fingerprint1 = fileFingerprints.get(file1);
-                List<Long> fingerprint2 = fileFingerprints.get(file2);
-                float similarityScore = similarity(fingerprint1, fingerprint2);
-                System.out.println("Similarity between " + file1 + " and " + file2 + ": " + (similarityScore * 100) + "%");
+                int ti = i;
+                int tj = j;
+
+                Thread t = new Thread(() -> {
+                    String file1 = args[ti];
+                    String file2 = args[tj];
+                    List<Long> fingerprint1 = fileFingerprints.get(file1);
+                    List<Long> fingerprint2 = fileFingerprints.get(file2);
+                    float similarityScore = similarity(fingerprint1, fingerprint2);
+                    System.out.println("Similarity between " + file1 + " and " + file2 + ": " + (similarityScore * 100) + "%");
+                });
+                
+                t.start();
             }
         }
     }
